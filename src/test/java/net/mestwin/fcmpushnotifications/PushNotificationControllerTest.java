@@ -1,7 +1,7 @@
 package net.mestwin.fcmpushnotifications;
 
 import net.mestwin.fcmpushnotifications.controller.PushNotificationController;
-import net.mestwin.fcmpushnotifications.firebase.FCMClient;
+import net.mestwin.fcmpushnotifications.firebase.FCMService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -26,7 +25,7 @@ public class PushNotificationControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    FCMClient fcmService;
+    FCMService fcmService;
 
     @Test
     public void sendTestMessageViaAPI() throws Exception {

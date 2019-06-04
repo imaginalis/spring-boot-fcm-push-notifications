@@ -16,15 +16,15 @@ import java.io.IOException;
 public class FCMInitializer {
 
     @Value("${app.firebase-configuration-file}")
-    private String FIREBASE_CONFIG_PATH;
+    private String firebaseConfigPath;
 
-    Logger logger = LoggerFactory.getLogger(FCMClient.class);
+    Logger logger = LoggerFactory.getLogger(FCMService.class);
 
     @PostConstruct
     public void initialize() {
         try {
             FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(new ClassPathResource(FIREBASE_CONFIG_PATH).getInputStream())).build();
+                    .setCredentials(GoogleCredentials.fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())).build();
             if(FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
                 logger.info("Firebase application has been initialized");

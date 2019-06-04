@@ -1,19 +1,13 @@
 package net.mestwin.fcmpushnotifications;
 
 import com.google.firebase.FirebaseApp;
-import net.mestwin.fcmpushnotifications.controller.PushNotificationController;
-import net.mestwin.fcmpushnotifications.firebase.FCMClient;
+import net.mestwin.fcmpushnotifications.firebase.FCMService;
 import net.mestwin.fcmpushnotifications.firebase.FCMInitializer;
-import org.junit.Before;
+import net.mestwin.fcmpushnotifications.model.PushNotificationRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.internal.configuration.injection.MockInjection;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
@@ -29,7 +23,7 @@ public class FcmPushNotificationsApplicationTests {
 	FCMInitializer fcmInitializer;
 
 	@Mock
-	FCMClient fcmClient;
+	FCMService fcmClient;
 
 	@Test
 	public void contextLoads() {
@@ -45,9 +39,10 @@ public class FcmPushNotificationsApplicationTests {
 
 	@Test
 	public void sendTestMessage() {
+		PushNotificationRequest request = new PushNotificationRequest("hello", "testMessage", "testTopic");
 		Map<String, String> pushData = new HashMap<>();
 		try {
-			fcmClient.sendTest(pushData);
+			fcmClient.sendMessage(pushData, request);
 		} catch(Exception e) {
 			fail();
 		}
