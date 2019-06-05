@@ -18,21 +18,21 @@ public class FCMService {
             throws InterruptedException, ExecutionException {
         Message message = getPreconfiguredMessageWithData(data, request);
         String response = sendAndGetResponse(message);
-        logger.info("Sent message with data " + request.getTopicName() + ". " + response);
+        logger.info("Sent message with data. Topic: " + request.getTopic() + ", " + response);
     }
 
     public void sendMessageWithoutData(PushNotificationRequest request)
             throws InterruptedException, ExecutionException {
         Message message = getPreconfiguredMessageWithoutData(request);
         String response = sendAndGetResponse(message);
-        logger.info("Sent message without data " + request.getTopicName() + ". " + response);
+        logger.info("Sent message without data. Topic: " + request.getTopic() + ", " + response);
     }
 
     public void sendMessageToToken(PushNotificationRequest request)
             throws InterruptedException, ExecutionException {
         Message message = getPreconfiguredMessageToToken(request);
         String response = sendAndGetResponse(message);
-        logger.info("Sent message to token " + request.getToken() + ". " + response);
+        logger.info("Sent message to token. Device token: " + request.getToken() + ", " + response);
     }
 
     private String sendAndGetResponse(Message message) throws InterruptedException, ExecutionException {
@@ -53,26 +53,26 @@ public class FCMService {
     }
 
     private Message getPreconfiguredMessageToToken(PushNotificationRequest request) {
-        return getPreconfiguredMessageBuilder(request).setToken("123")
+        return getPreconfiguredMessageBuilder(request).setToken(request.getToken())
                 .build();
     }
 
     private Message getPreconfiguredMessageWithoutData(PushNotificationRequest request) {
-        return getPreconfiguredMessageBuilder(request).setTopic(request.getTopicName())
+        return getPreconfiguredMessageBuilder(request).setTopic(request.getTopic())
                 .build();
     }
 
     private Message getPreconfiguredMessageWithData(Map<String, String> data, PushNotificationRequest request) {
-        return getPreconfiguredMessageBuilder(request).putAllData(data).setTopic(request.getTopicName())
+        return getPreconfiguredMessageBuilder(request).putAllData(data).setTopic(request.getTopic())
                 .build();
     }
 
     private Message.Builder getPreconfiguredMessageBuilder(PushNotificationRequest request) {
-        AndroidConfig androidConfig = getAndroidConfig(request.getTopicName());
-        ApnsConfig apnsConfig = getApnsConfig(request.getTopicName());
+        AndroidConfig androidConfig = getAndroidConfig(request.getTopic());
+        ApnsConfig apnsConfig = getApnsConfig(request.getTopic());
         return Message.builder()
                 .setApnsConfig(apnsConfig).setAndroidConfig(androidConfig).setNotification(
-                        new Notification(request.getTitle(), request.getMessageBody()));
+                        new Notification(request.getTitle(), request.getMessage()));
     }
 
 

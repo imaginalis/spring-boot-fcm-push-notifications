@@ -22,8 +22,6 @@ public class PushNotificationService {
     private String defaultTitle;
     @Value("${app.notifications.defaults.message}")
     private String defaultMessage;
-    @Value("${app.notifications.defaults.token}")
-    private String defaultToken;
     @Value("${app.notifications.defaults.payload.id}")
     private String defaultPayloadId;
     @Value("${app.notifications.defaults.payload.data}")
@@ -46,17 +44,7 @@ public class PushNotificationService {
             logger.error(e.getMessage());
         }
     }
-
     public void sendPushNotification(PushNotificationRequest request) {
-        try {
-            fcmService.sendMessageWithoutData(request);
-        }
-        catch (InterruptedException | ExecutionException e) {
-            logger.error(e.getMessage());
-        }
-    }
-
-    public void sendPushNotificationWithData(PushNotificationRequest request) {
         try {
             fcmService.sendMessage(getSamplePayloadData(), request);
         }
@@ -65,9 +53,19 @@ public class PushNotificationService {
         }
     }
 
-    public void sendPushNotificationToToken(PushNotificationRequest request) {
+    public void sendPushNotificationWithoutData(PushNotificationRequest request) {
         try {
             fcmService.sendMessageWithoutData(request);
+        }
+        catch (InterruptedException | ExecutionException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+
+    public void sendPushNotificationToToken(PushNotificationRequest request) {
+        try {
+            fcmService.sendMessageToToken(request);
         }
         catch (InterruptedException | ExecutionException e) {
             logger.error(e.getMessage());

@@ -1,15 +1,19 @@
 package net.mestwin.fcmpushnotifications.model;
 
 public class PushNotificationRequest {
+
     private String title;
-    private String messageBody;
-    private String topicName;
+    private String message;
+    private String topic;
     private String token;
+
+    public PushNotificationRequest() {
+    }
 
     public PushNotificationRequest(String title, String messageBody, String topicName) {
         this.title = title;
-        this.messageBody = messageBody;
-        this.topicName = topicName;
+        this.message = messageBody;
+        this.topic = topicName;
     }
 
     public String getTitle() {
@@ -20,20 +24,20 @@ public class PushNotificationRequest {
         this.title = title;
     }
 
-    public String getMessageBody() {
-        return messageBody;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMessageBody(String messageBody) {
-        this.messageBody = messageBody;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getTopicName() {
-        return topicName;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setTopicName(String topicName) {
-        this.topicName = topicName;
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public String getToken() {
