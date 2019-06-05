@@ -1,6 +1,5 @@
 package net.mestwin.fcmpushnotifications.controller;
 
-import net.mestwin.fcmpushnotifications.firebase.FCMService;
 import net.mestwin.fcmpushnotifications.model.PushNotificationRequest;
 import net.mestwin.fcmpushnotifications.service.PushNotificationService;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PushNotificationController {
 
     private PushNotificationService pushNotificationService;
+
     public PushNotificationController(PushNotificationService pushNotificationService) {
         this.pushNotificationService = pushNotificationService;
     }

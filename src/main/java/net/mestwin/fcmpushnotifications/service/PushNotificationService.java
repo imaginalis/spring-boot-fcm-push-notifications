@@ -16,17 +16,8 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class PushNotificationService {
 
-    @Value("${app.notifications.defaults.topic}")
-    private String defaultTopic;
-    @Value("${app.notifications.defaults.title}")
-    private String defaultTitle;
-    @Value("${app.notifications.defaults.message}")
-    private String defaultMessage;
-    @Value("${app.notifications.defaults.payload.id}")
-    private String defaultPayloadId;
-    @Value("${app.notifications.defaults.payload.data}")
-    private String defaultPayloadData;
-
+    @Value("#{${app.notifications.defaults}}")
+    private Map<String, String> defaults;
 
     private Logger logger = LoggerFactory.getLogger(PushNotificationService.class);
     private FCMService fcmService;
@@ -35,20 +26,19 @@ public class PushNotificationService {
         this.fcmService = fcmService;
     }
 
-    @Scheduled(initialDelay=60000, fixedDelay = 60000)
+    @Scheduled(initialDelay = 60000, fixedDelay = 60000)
     public void sendSamplePushNotification() {
         try {
             fcmService.sendMessageWithoutData(getSamplePushNotificationRequest());
-        }
-        catch (InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             logger.error(e.getMessage());
         }
     }
+
     public void sendPushNotification(PushNotificationRequest request) {
         try {
             fcmService.sendMessage(getSamplePayloadData(), request);
-        }
-        catch (InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             logger.error(e.getMessage());
         }
     }
@@ -56,8 +46,7 @@ public class PushNotificationService {
     public void sendPushNotificationWithoutData(PushNotificationRequest request) {
         try {
             fcmService.sendMessageWithoutData(request);
-        }
-        catch (InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             logger.error(e.getMessage());
         }
     }
@@ -66,8 +55,7 @@ public class PushNotificationService {
     public void sendPushNotificationToToken(PushNotificationRequest request) {
         try {
             fcmService.sendMessageToToken(request);
-        }
-        catch (InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             logger.error(e.getMessage());
         }
     }
@@ -75,19 +63,18 @@ public class PushNotificationService {
 
     private Map<String, String> getSamplePayloadData() {
         Map<String, String> pushData = new HashMap<>();
-        pushData.put("id", defaultPayloadId);
-        pushData.put("text", defaultPayloadData + " " + LocalDateTime.now());
+        pushData.put("messageId", defaults.get("payloadMessageId"));
+        pushData.put("text", defaults.get("payloadData") + " " + LocalDateTime.now());
         return pushData;
     }
 
 
     private PushNotificationRequest getSamplePushNotificationRequest() {
-        PushNotificationRequest request = new PushNotificationRequest(defaultTitle,
-                defaultMessage,
-                defaultTopic);
+        PushNotificationRequest request = new PushNotificationRequest(defaults.get("title"),
+                defaults.get("message"),
+                defaults.get("topic"));
         return request;
     }
-
 
 
 }
