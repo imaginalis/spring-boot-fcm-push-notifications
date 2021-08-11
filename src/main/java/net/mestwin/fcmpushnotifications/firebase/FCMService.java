@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+//without data payload
 @Service
 public class FCMService {
 
